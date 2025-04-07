@@ -56,7 +56,7 @@ def NonRestoring(q, m, length):
 
       #Store everything in a dictionary
   NonRestoreResults = {"Quotient": {"Binary": format (q, f"0{length}b"), "Hex": hex(q)},
-                      "Remainder": {"Binary": format (q, f"0{length}b"), "Hex": hex(a)},
+                      "Remainder": {"Binary": format (a, f"0{length}b"), "Hex": hex(a)},
                       "Number of iterations": i,
                       "Number of Additions/Subtractions": addSub}
 

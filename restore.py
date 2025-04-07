@@ -11,7 +11,9 @@ def Restoring(q, m, length):
     #print(n)
     
     #Check Overflow
-
+    if(CheckOverflow(q, m, length)): # overflow has occured!
+        print("Overflow has occurred! Exiting program.")
+        sys.exit()
     #do while loop
     while i < n:
         # Works here
@@ -36,7 +38,7 @@ def Restoring(q, m, length):
 
         #Store everything in a dictionary
     RestoreResults = {"Quotient": {"Binary": format (q, f"0{length}b"), "Hex": hex(q)},
-                        "Remainder": {"Binary": format (q, f"0{length}b"), "Hex": hex(a)},
+                        "Remainder": {"Binary": format (a, f"0{length}b"), "Hex": hex(a)},
                         "Number of iterations": i,
                         "Number of Additions/Subtractions": addSub}
 
