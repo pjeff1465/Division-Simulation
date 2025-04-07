@@ -32,28 +32,28 @@ def NonRestoring(q, m, length):
   while i < n:
       # Preform SHL
       a, q = ShiftLeft(a, q, length)
-      n -= 1 # -1 for SHL
 
       if BitPosition(a, length): # A is negative
           # add a <- a + m
           a = AddBinary(a, m, length)
           addSub += 1
-
       else: # A is positive
           # subtract a <- a - m 
           a = SubBinary(a, m, length)
           addSub += 1
 
       if BitPosition(a, length): # A is negative
-          q = q | 0 # Set Q[0] to 1
+          q = q & ~1 # clear LSB in q , q[0] = 0
       else: # A is positive
-          q = q | 1 
+          q = q | 1 # LSB in q is 1 q[0] = 1
       
       i += 1 
         
     # On last iteration if A is negative => A <- A + M
   if BitPosition(a, length): 
         a = AddBinary(a, m, length)
+        addSub += 1
+
       #Store everything in a dictionary
   NonRestoreResults = {"Quotient": {"Binary": format (q, f"0{length}b"), "Hex": hex(q)},
                       "Remainder": {"Binary": format (q, f"0{length}b"), "Hex": hex(a)},
