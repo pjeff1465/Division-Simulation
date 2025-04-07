@@ -75,7 +75,6 @@ def main():
         result["Operand 2"] = m_bin
 
         RestoreResults.append(result)
-        print(result)
 
     print("\n=== Restoring Division Results ===")
     print("-" * 146)
