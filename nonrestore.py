@@ -2,11 +2,6 @@
 Check Overflow
   if Q >= M then there is overflow (funcs.py for overflow)
     return error
-Check XOR of Q and M (funcs.py for XOR?!)
-  if 1
-    return true
-  if 0
-    return false
 do while n >= 0 (n = number of bits in Q)
   Check Sign Bit of A (funcs.py for BitPosition(a) true = neg)
     if = 0, SHL, A=A-M (funcs.py for sub)
@@ -16,9 +11,8 @@ do while n >= 0 (n = number of bits in Q)
     if =1, Q[1] = 0
   n--
   i++ (iteration counter int i = 0)
-
-if result != XOR of Q and M
- reult = ~result (2s complement)
+if sign bit of a = 1
+  a = a+ m
 """
 from funcs import *
 
@@ -28,37 +22,33 @@ def NonRestoring(q, m, length):
     addSub = 0 #Number of Additions and Subtractions
 
     #Check Overflow
-    if((CheckOverflow(q, m, length)) == True): # overflow has occured!
-        print(f'Overflow has occurred! Exiting program.')
-        exit
-    else:
-      #Check XOR of Q and M
-
+    if(CheckOverflow(q, m, length)): # overflow has occured!
+        print("Overflow has occurred! Exiting program.")
+        sys.exit()
+      
       #do while loop
       while n >= 0:
-          # Perofmr SHL
-          ShiftLeft(a, q, length)
+          # Preform SHL
+          a, q = ShiftLeft(a, q, length)
           n -= 1 # -1 for SHL
 
-          if BitPosition(a) == True: # A is negative
+          if BitPosition(a, length): # A is negative
               # add a <- a + m
-              a = AddBinary(a, m)
+              a = AddBinary(a, m, length)
               addSub += 1
 
           else: # A is positive
               # subtract a <- a - m 
-              a = SubBinary(a, m)
+              a = SubBinary(a, m, length)
               addSub += 1
 
-          if BitPosition(a) == True: # A is negative
-              q[0] = 0 # Set last postion of Q to 1
+          if BitPosition(a, length): # A is negative
+              q = q | 0 # Set Q[0] to 1
           else: # A is positive
-              q[0] = 1 
+              q = q | 1 
           
-          i = i + 1 
-
-      #Check Reult with XOR of Q and M  
-
+          i += 1 
+        
     # On last iteration if A is negative => A <- A + M
     if BitPosition(a) == True: 
         a = AddBinary(a, m)
