@@ -1,9 +1,7 @@
 from funcs import *
 import sys
 
-def Restoring(q, m, length):
-    print("Restore() was called")
-    
+def Restoring(q, m, length):    
     i = 0 #iterations
     n = length #Number of bits in q
     addSub = 0 #Number of Additions and Subtractions
@@ -13,14 +11,6 @@ def Restoring(q, m, length):
     #print(n)
     
     #Check Overflow
-    '''
-    if CheckOverflow(q, m, length): # overflow has occurred!
-        print("Overflow has occurred! Exiting program.")
-        sys.exit()
-    '''
-    #if m == 0:
-    #    print("Error: Division by zero! Exiting program.")
-    #    sys.exit(1)
 
     #do while loop
     while i < n:
@@ -33,7 +23,6 @@ def Restoring(q, m, length):
         addSub += 1
                 
         if BitPosition(a, length): # If A = negative
-            #q = (q << 1) & ((1 << length) - 1)  # Set Q0 = 0 (implicitly)
             q = q & ~1 # clear LSB in q
 
             # restore a ( a <- a + m )
@@ -41,16 +30,15 @@ def Restoring(q, m, length):
             addSub += 1 # add operation so + 1
 
         else: # A is positive
-            #q = ((q << 1) | 1) & ((1 << length) - 1)  # Set Q0 = 1
             q = q | 1
 
         i += 1 # + 1 for number of iterations
 
         #Store everything in a dictionary
-    RestoreResults = [{"Quotient": {"Binary": format (q, f"0{length}b"), "Hex": hex(q)}},
-                        {"Remainder": {"Binary": format (q, f"0{length}b"), "Hex": hex(a)}},
-                        {"Number of iterations": i},
-                        {"Number of Additions/Subtractions": addSub}]
+    RestoreResults = {"Quotient": {"Binary": format (q, f"0{length}b"), "Hex": hex(q)},
+                        "Remainder": {"Binary": format (q, f"0{length}b"), "Hex": hex(a)},
+                        "Number of iterations": i,
+                        "Number of Additions/Subtractions": addSub}
 
     return RestoreResults
 

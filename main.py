@@ -71,15 +71,29 @@ def main():
         result = Restoring(q_int, m_int, q_len)
 
         # add original input (include padded binary)
-        #result[0]["Operand_1"] = q_bin
-        #result[1]["Operand_2"] = m_bin
+        result["Operand 1"] = q_bin
+        result["Operand 2"] = m_bin
 
         RestoreResults.append(result)
+        print(result)
+
+    print("\n=== Restoring Division Results ===")
+    print("-" * 146)
+    print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<4} | {:<7} |".format(
+        "No.", "Dividend", "Divisor", "Quotient (Bin/Hex)", "Remainder", "Iter", "Add/Sub"))
+    print("-" * 146)
     
-    print("\n=== Summary of All Results ===")
     for i, result in enumerate(RestoreResults):
-        print(f"Input #{i+1}: {result['Operand 1']} ÷ {result['Operand 2']} = {result['Quotient']['Binary']} remainder {result['Remainder']['Binary']}")
-        #print(f"Input #{i+1}: {result[0]['Operand 1']} ÷ {result[1]['Operand 2']} = {result[2]['Quotient']['Binary']} remainder {result[2]['Remainder']['Binary']}")
+        print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<4} | {:<7} |".format(
+            i+1,
+            result["Operand 1"],
+            result["Operand 2"],
+            f"{result['Quotient']['Binary']} ({result['Quotient']['Hex']})",
+            f"{result['Remainder']['Binary']} ({result['Remainder']['Hex']})",
+            result["Number of iterations"],
+            result["Number of Additions/Subtractions"]
+        ))
+    print("-" * 146)
 
     # Non Restore Function Loop
     '''
@@ -100,8 +114,6 @@ def main():
 
         NonRestoreResults.append(NonRestoreResults)
     '''
-    print(f"Restore Algorithm Results: {RestoreResults}")
-    # print(f"NonRestore Algorithm Results: {NonRestoreResults}")
 
 if __name__ == "__main__":
     main()
