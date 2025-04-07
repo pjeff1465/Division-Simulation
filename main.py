@@ -55,7 +55,7 @@ def main():
         {"q": "1000011100001000100100000", "m": "0000011100000"},
     ]
 
-        #NonRestoreResults = []
+    NonRestoreResults = []
     RestoreResults = []
 
         # Restore Function Loop
@@ -95,25 +95,40 @@ def main():
         ))
     print("-" * 146)
 
-    # Non Restore Function Loop
-    '''
-    for i in input_list:
-        q_bin = i["q"]
-        m_bin = i["m"]
+    #Non Restore Function Loop
+    for i, input_pair in enumerate(input_list):
+        q_bin = input_pair["q"]
+        m_bin = input_pair["m"]
 
         q_int = int(q_bin, 2)
         m_int = int(m_bin, 2)
         q_len = len(q_bin) # Track length of bin_q for leading 0's
 
-        # Call restore function
-        NonRestoreResults = NonRestoring(q_int, m_int, q_len)
+        # Call Non Restore function
+        result = NonRestoring(q_int, m_int, q_len)
 
         # add original input (include padded binary)
-        NonRestoreResults["Operand 1"] = q_bin
-        NonRestoreResults["Operand 2"] = m_bin
+        result["Operand 1"] = q_bin
+        result["Operand 2"] = m_bin
 
-        NonRestoreResults.append(NonRestoreResults)
-    '''
+        RestoreResults.append(result)
+        print(result)
+
+    print("\n=== Non-Restoring Division Results ===")
+    print("-" * 146)
+    print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<4} | {:<7} |".format(
+        "No.", "Dividend", "Divisor", "Quotient (Bin/Hex)", "Remainder", "Iter", "Add/Sub"))
+    print("-" * 146)
+    
+    for i, result in enumerate(NonRestoreResults):
+        print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<4} | {:<7} |".format(
+            i+1,
+            result["Operand 1"],
+            result["Operand 2"],
+            f"{result['Quotient']['Binary']} ({result['Quotient']['Hex']})",
+            f"{result['Remainder']['Binary']} ({result['Remainder']['Hex']})",
+            result["Number of iterations"],
+            result["Number of Additions/Subtractions"]
 
 if __name__ == "__main__":
     #main()
