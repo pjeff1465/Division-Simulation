@@ -14,7 +14,7 @@ def test():
     length = len(q_bin)
 
     print(f"Calling Restoring with q={q}, m={m}, length={length}")
-    result = Restoring(q, m, length)
+    result = NonRestoring(q, m, length)
     print("Received result:", result)
     
     try:
@@ -116,8 +116,8 @@ def main():
     '''
 
 if __name__ == "__main__":
-    main()
-
+    #main()
+    test()
     ''' Checks for funcs.py functions
     CHECKS SHIFTLEFT FUNCTION
     q_str = "0100"
