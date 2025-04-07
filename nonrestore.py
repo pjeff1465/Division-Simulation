@@ -21,6 +21,7 @@ def NonRestoring(q, m, length):
     i = 0 #iterations
     n = length #Number of bits in q
     addSub = 0 #Number of Additions and Subtractions
+    a = 0 #a = length of q
 
     #Check Overflow
     if(CheckOverflow(q, m, length)): # overflow has occured!
