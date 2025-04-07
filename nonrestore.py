@@ -15,6 +15,7 @@ if sign bit of a = 1
   a = a+ m
 """
 from funcs import *
+import sys
 
 def NonRestoring(q, m, length):
     i = 0 #iterations
