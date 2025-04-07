@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 from funcs import *
 from restore import Restoring
 from nonrestore import NonRestoring
