@@ -111,7 +111,7 @@ def main():
         result["Operand 1"] = q_bin
         result["Operand 2"] = m_bin
 
-        RestoreResults.append(result)
+        NonRestoreResults.append(result)
         print(result)
 
     print("\n=== Non-Restoring Division Results ===")
@@ -129,10 +129,12 @@ def main():
             f"{result['Remainder']['Binary']} ({result['Remainder']['Hex']})",
             result["Number of iterations"],
             result["Number of Additions/Subtractions"]
+        ))
+    print("-" * 146)
 
 if __name__ == "__main__":
-    #main()
-    test()
+    main()
+    #test()
     ''' Checks for funcs.py functions
     CHECKS SHIFTLEFT FUNCTION
     q_str = "0100"

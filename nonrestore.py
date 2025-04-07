@@ -54,11 +54,10 @@ def NonRestoring(q, m, length):
     # On last iteration if A is negative => A <- A + M
   if BitPosition(a, length): 
         a = AddBinary(a, m, length)
-  else:
       #Store everything in a dictionary
-    NonRestoreResults = {"Quotient": {"Binary": format (q, f"0{length}b"), "Hex": hex(q)},
-                        "Remainder": {"Binary": format (q, f"0{length}b"), "Hex": hex(a)},
-                        "Number of iterations": i,
-                        "Number of Additions/Subtractions": addSub}
+  NonRestoreResults = {"Quotient": {"Binary": format (q, f"0{length}b"), "Hex": hex(q)},
+                      "Remainder": {"Binary": format (q, f"0{length}b"), "Hex": hex(a)},
+                      "Number of iterations": i,
+                      "Number of Additions/Subtractions": addSub}
 
   return NonRestoreResults
