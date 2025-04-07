@@ -112,7 +112,6 @@ def main():
         result["Operand 2"] = m_bin
 
         NonRestoreResults.append(result)
-        print(result)
 
     print("\n=== Non-Restoring Division Results ===")
     print("-" * 146)
