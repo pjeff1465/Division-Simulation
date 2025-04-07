@@ -22,32 +22,32 @@ def NonRestoring(q, m, length):
     addSub = 0 #Number of Additions and Subtractions
 
     #Check Overflow
-    if((CheckOverflow(q, m, length)) == True): # overflow has occured!
-        print(f'Overflow has occurred! Exiting program.')
-        exit
+    if(CheckOverflow(q, m, length)): # overflow has occured!
+        print("Overflow has occurred! Exiting program.")
+        sys.exit()
       
       #do while loop
       while n >= 0:
-          # Perofmr SHL
+          # Preform SHL
           a, q = ShiftLeft(a, q, length)
           n -= 1 # -1 for SHL
 
-          if BitPosition(a) == True: # A is negative
+          if BitPosition(a, length): # A is negative
               # add a <- a + m
-              a = AddBinary(a, m)
+              a = AddBinary(a, m, length)
               addSub += 1
 
           else: # A is positive
               # subtract a <- a - m 
-              a = SubBinary(a, m)
+              a = SubBinary(a, m, length)
               addSub += 1
 
-          if BitPosition(a) == True: # A is negative
-              q[0] = 0 # Set last postion of Q to 1
+          if BitPosition(a, length): # A is negative
+              q = q | 0 # Set Q[0] to 1
           else: # A is positive
-              q[0] = 1 
+              q = q | 1 
           
-          i = i + 1 
+          i += 1 
         
     # On last iteration if A is negative => A <- A + M
     if BitPosition(a) == True: 
