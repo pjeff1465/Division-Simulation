@@ -29,7 +29,7 @@ def NonRestoring(q, m, length):
       sys.exit()
     
     #do while loop
-  while n >= 0:
+  while i < n:
       # Preform SHL
       a, q = ShiftLeft(a, q, length)
       n -= 1 # -1 for SHL
