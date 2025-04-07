@@ -78,12 +78,12 @@ def main():
 
     print("\n=== Restoring Division Results ===")
     print("-" * 146)
-    print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<4} | {:<7} |".format(
+    print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<5} | {:<7} |".format(
         "No.", "Dividend", "Divisor", "Quotient (Bin/Hex)", "Remainder", "Iter", "Add/Sub"))
     print("-" * 146)
     
     for i, result in enumerate(RestoreResults):
-        print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<4} | {:<7} |".format(
+        print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<5} | {:<7} |".format(
             i+1,
             result["Operand 1"],
             result["Operand 2"],
@@ -114,12 +114,12 @@ def main():
 
     print("\n=== Non-Restoring Division Results ===")
     print("-" * 146)
-    print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<4} | {:<7} |".format(
+    print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<5} | {:<7} |".format(
         "No.", "Dividend", "Divisor", "Quotient (Bin/Hex)", "Remainder", "Iter", "Add/Sub"))
     print("-" * 146)
     
     for i, result in enumerate(NonRestoreResults):
-        print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<4} | {:<7} |".format(
+        print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<5} | {:<7} |".format(
             i+1,
             result["Operand 1"],
             result["Operand 2"],

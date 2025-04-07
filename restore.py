@@ -10,11 +10,26 @@ def Restoring(q, m, length):
     # works here
     #print(n)
     
-    #Check Overflow
+    # Check Overflow
     if(CheckOverflow(q, m, length)): # overflow has occured!
-        print("Overflow has occurred! Exiting program.")
-        sys.exit()
-    #do while loop
+        return {
+            "Quotient": {"Binary": "Error Overflow!", "Hex": "Error"},
+            "Remainder": {"Binary": "Error", "Hex": "Error"},
+            "Number of iterations": "Error",
+            "Number of Additions/Subtractions": "Error"
+        }
+
+    # Check if divisor is 0
+      # Check if divisor is 0 
+    if m == 0:
+        return {
+            "Quotient": {"Binary": "Error! Divisor = 0", "Hex": "Error"},
+            "Remainder": {"Binary": "Error! Divisor = 0", "Hex": "Error"},
+            "Number of iterations": "Error",
+            "Number of Additions/Subtractions": "Error"
+        }   
+    
+    # Enter Restore Algorithm
     while i < n:
         # Works here
         #print("entered while loop")

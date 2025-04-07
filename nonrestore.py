@@ -23,12 +23,25 @@ def NonRestoring(q, m, length):
   addSub = 0 #Number of Additions and Subtractions
   a = 0 #a = length of q
 
-  #Check Overflow
+  # Check Overflow
   if(CheckOverflow(q, m, length)): # overflow has occured!
-      print("Overflow has occurred! Exiting program.")
-      sys.exit()
-    
-    #do while loop
+      return {
+          "Quotient": {"Binary": "Error Overflow!", "Hex": "Error"},
+          "Remainder": {"Binary": "Error", "Hex": "Error"},
+          "Number of iterations": "Error",
+          "Number of Additions/Subtractions": "Error"
+      }
+   
+  # Check if divisor is 0 
+  if m == 0:
+    return {
+        "Quotient": {"Binary": "Error! Divisor = 0", "Hex": "Error"},
+        "Remainder": {"Binary": "Error! Divisor = 0", "Hex": "Error"},
+        "Number of iterations": "Error",
+        "Number of Additions/Subtractions": "Error"
+    }   
+
+  # Enter NonRestore Algorithm
   while i < n:
       # Preform SHL
       a, q = ShiftLeft(a, q, length)
