@@ -53,22 +53,27 @@ def ShiftLeft(a, q, length):
     
     return a, q
 
-    ''' modified version, also works and also returns tuple
-    mask = (1 << length) - 1
-
-    combined = (a << length) | q
-
-    combined = combined << 1
-
-    new_a = (combined >> length) & mask
-    new_q = combined & mask
-
-    return new_a, new_q
-    '''
-
-
+# Checks overflow, overflow occurs when allocated bit length is not big enough to hold quotient
 def CheckOverflow(q, m, length):
-    if(q == -2**(length-1)) & (m == -1):
-        overflow = True
+    max_val = 2**(length-1) - 1
+    return ((q == -2**(length-1)) and (m == -1)) or abs(q) > max_val or abs(m) > max_val
+# returns true if overflow occurs, and false if not
+
+# convert binary string to SIGNED integer
+def binary_to_int(bin_str):
+    if bin_str[0] == '0': # binary is positive
+        return int(bin_str, 2) # convert it like normal
+    else: # negative, first bit negated take int of binary numbers
+        new_str = bin_str[1:] # dismiss sign bit
+        bits = len(new_str) 
+        value = int(new_str, 2)
+        return -value # return negative of value
+
+# Needed to convert integer to SIGNED magnitude
+def int_to_binary(num, length):
+    if num >= 0:
+        return format(num, f'0{length}b'.zfill(length))
     else:
-        overflow = False
+        magnitude = abs(num)
+        binary = format(magnitude, f'0{length-1}b').zfill(length-1)
+        return '1' + binary
