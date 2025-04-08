@@ -6,10 +6,7 @@ def Restoring(q_int, m_int, q_sign, m_sign, length):
     n = length #Number of bits in q
     addSub = 0 #Number of Additions and Subtractions
     a = 0 # a = length of q
-    q = q_int
-
-    # works here
-    #print(n)
+    q = q_int # update every iteration
     
     # Check Overflow
     if(CheckOverflow(q_int, m_int, length)): # overflow has occured!
@@ -19,9 +16,8 @@ def Restoring(q_int, m_int, q_sign, m_sign, length):
             "Number of iterations": "Error",
             "Number of Additions/Subtractions": "Error"
         }
-
+    
     # Check if divisor is 0
-      # Check if divisor is 0 
     if m_int == 0:
         return {
             "Quotient": {"Binary": "Error! Divisor = 0", "Hex": "Error"},
@@ -29,14 +25,14 @@ def Restoring(q_int, m_int, q_sign, m_sign, length):
             "Number of iterations": "Error",
             "Number of Additions/Subtractions": "Error"
         }   
-    
+    # if either check true skip loop for iteration and print error
+
     # Enter Restore Algorithm
-    while i < n:
-        # Works here
+    while i < n: # iterations # = num of bits
+        # perform SHL on AQ
+        a, q = ShiftLeft(a, q, length) # use updated q
 
-        a, q = ShiftLeft(a, q, length) # perform SHL on AQ
-
-        a = SubBinary(a, m_int, length)
+        a = SubBinary(a, m_int, length) # a <- a - m 
         addSub += 1
                 
         if BitPosition(a, length): # If A = negative
@@ -68,8 +64,8 @@ def Restoring(q_int, m_int, q_sign, m_sign, length):
     finala_int = binary_to_int(a_bin)
 
     # Take signed hex format of quotient (q) and remainder (a)
-    q_hex = hex(abs(finalq_int)) if finalq_int >= 0 else '-' + hex(abs(finalq_int))[2:]
-    a_hex = hex(abs(finala_int)) if finala_int >= 0 else '-' + hex(abs(finala_int))[2:]
+    q_hex = hex(abs(finalq_int)) if finalq_int >= 0 else '-0x' + hex(abs(finalq_int))[2:]
+    a_hex = hex(abs(finala_int)) if finala_int >= 0 else '-0x' + hex(abs(finala_int))[2:]
 
     # Store everything in a dictionary
     RestoreResults = {"Quotient": {"Binary": q_bin, "Hex": q_hex},
@@ -79,10 +75,3 @@ def Restoring(q_int, m_int, q_sign, m_sign, length):
                       }
 
     return RestoreResults
-
-'''
-    RestoreResults = {"Quotient": {"Binary": format (q, f"0{length}b"), "Hex": hex(q)},
-                        "Remainder": {"Binary": format (a, f"0{length}b"), "Hex": hex(a)},
-                        "Number of iterations": i,
-                        "Number of Additions/Subtractions": addSub}
-                        '''

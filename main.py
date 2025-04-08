@@ -103,23 +103,22 @@ def main():
             result["Number of Additions/Subtractions"]
         ))
     print("-" * 146)
-    return RestoreResults
-'''
-    #Non Restore Function Loop
-    for i, input_pair in enumerate(input_list):
-        q_bin = input_pair["q"]
-        m_bin = input_pair["m"]
 
-        q_sign = -1 if q_bin[0] == '1' else 1
-        m_sign = -1 if m_bin[0] == '1' else 1
+    # Non Restore Function Loop
+    for i, pair in enumerate(input_list):
+        q_bin = pair["q"]
+        m_bin = pair["m"]
 
-        q_int = int(q_bin[1:], 2) if q_sign == -1 else int(q_bin, 2)
-        m_int = int(m_bin[1:], 2) if m_sign == -1 else int(m_bin, 2)
+        q_sign = 1 if q_bin[0] == '1' else 0
+        m_sign = 1 if m_bin[0] == '1' else 0
+
+        q_int = int(q_bin[1:], 2) if q_sign else int(q_bin, 2)
+        m_int = int(m_bin[1:], 2) if m_sign else int(m_bin, 2)
 
         length = len(q_bin)
 
-        # Call Non Restore function
-        result = NonRestoring(q_int, m_int, q_sign, m_sign, length)
+        # Call restore function
+        result = Restoring(q_int, m_int, q_sign, m_sign, length)
 
         # add original input (include padded binary)
         result["Operand 1"] = q_bin
@@ -144,8 +143,8 @@ def main():
             result["Number of Additions/Subtractions"]
         ))
     print("-" * 146)
-    '''
-    #return NonRestoreResults, RestoreResults
+
+    return NonRestoreResults, RestoreResults
 
 
 def testmain():

@@ -15,13 +15,14 @@ if sign bit of a = 1
   a = a+ m
 """
 from funcs import *
-import sys
 
+# q_int, m_int ==> magnitudes (negate sign bit) ==> q_sign, m_sign
 def NonRestoring(q_int, m_int, q_sign, m_sign, length):
   i = 0 #iterations
   n = length #Number of bits in q
   addSub = 0 #Number of Additions and Subtractions
   a = 0 #a = length of q
+  q = q_int # update every iteration
 
   # Check Overflow
   if(CheckOverflow(q_int, m_int, length)): # overflow has occured!
@@ -40,11 +41,12 @@ def NonRestoring(q_int, m_int, q_sign, m_sign, length):
         "Number of iterations": "Error",
         "Number of Additions/Subtractions": "Error"
     }   
+  # if either check true skip loop for iteration and print error
 
   # Enter NonRestore Algorithm
-  while i < n:
-      # Preform SHL
-      a, q_int = ShiftLeft(a, q_int, length)
+  while i < n: # iteration # = num of bits
+      # Preform SHL on AQ
+      a, q_int = ShiftLeft(a, q, length) # use updated q
 
       if BitPosition(a, length): # A is negative
           # add a <- a + m
@@ -56,31 +58,36 @@ def NonRestoring(q_int, m_int, q_sign, m_sign, length):
           addSub += 1
 
       if BitPosition(a, length): # A is negative
-          q_int = q_int & ~1 # clear LSB in q , q[0] = 0
+          q = q & ~1 # clear LSB in q , q[0] = 0
       else: # A is positive
-          q_int = q_int | 1 # LSB in q is 1 q[0] = 1
+          q = q | 1 # LSB in q is 1 q[0] = 1
       
       i += 1 
         
-    # On last iteration if A is negative => A <- A + M
+  # On last iteration if A is negative => A <- A + M
   if BitPosition(a, length): 
     a = AddBinary(a, m_int, length)
     addSub += 1
+  
+  # final values determined from loop
+  final_q = q
+  final_a = a
+
+  # determine correct sign bit of quotient and remainder
+  quotient_sign = 0 if (q_sign == m_sign) else 1
+  remainder_sign = q_sign # remainder sign same as quotient
 
   # Take signed binary format of quotient (q) and remainder (a)
-  q_bin = int_to_binary(q_int, length) 
-  a_bin = int_to_binary(a, length) 
+  q_bin = f"{quotient_sign}{format(abs(final_q), f'0{length - 1}b')}"
+  a_bin = f"{remainder_sign}{format(abs(final_a), f'0{length - 1}b')}"
+
+  finalq_int = binary_to_int(q_bin)
+  finala_int = binary_to_int(a_bin)
 
   # Take signed hex format of quotient (q) and remainder (a)
-  q_hex = hex(q) if q >= 0 else '-' + hex(-q)[2:]
-  a_hex = hex(a) if a >= 0 else '-' + hex(-a)[2:]
+  q_hex = hex(abs(finalq_int)) if finalq_int >= 0 else '-0x' + hex(abs(finalq_int))[2:]
+  a_hex = hex(abs(finala_int)) if finala_int >= 0 else '-0x' + hex(abs(finala_int))[2:]
 
-  '''
-  NonRestoreResults = {"Quotient": {"Binary": format (q, f"0{length}b"), "Hex": hex(q)},
-                      "Remainder": {"Binary": format (a, f"0{length}b"), "Hex": hex(a)},
-                      "Number of iterations": i,
-                      "Number of Additions/Subtractions": addSub}
-  '''
   # Store everything in a dictionary
   NonRestoreResults = {"Quotient": {"Binary": q_bin, "Hex": q_hex},
                        "Remainder": {"Binary": a_bin, "Hex": a_hex},
