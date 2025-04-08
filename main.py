@@ -138,4 +138,6 @@ if __name__ == "__main__":
     #PrintRestore(RestoreResults)
     #PrintNonRestore(NonRestoreResults)
     
-    graph(NonRestoreResults, RestoreResults) 
+    #graph(NonRestoreResults, RestoreResults) 
+
+    PrintResults(NonRestoreResults, RestoreResults)

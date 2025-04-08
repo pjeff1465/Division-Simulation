@@ -94,6 +94,5 @@ def NonRestoring(q_int, m_int, q_sign, m_sign, length):
                        "Number of iterations": i_nr,
                        "Number of Additions/Subtractions": addSub_nr
                        }
-  print(i_nr)
-  
+
   return NonRestoreResults

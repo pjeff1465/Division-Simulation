@@ -121,4 +121,30 @@ def PrintNonRestore(NonRestoreResults):
     return 
 
 def PrintResults(NonRestoreResults, RestoreResults):
+    print("=" * 78 + "  Division Results  " + "=" * 78)
+    print("-" * 176)
+    print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<21} | {:<20} |".format(
+            "No.", "Dividend", "Divisor", "Quotient (Bin/Hex)", "Remainder", "     Iterations", "      Add/Sub"))
+        
+    # Sub Header Row
+    print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<8} | {:<8} | {:<7} | {:<7} |".format(
+        "", "", "", "", "", "Restore", "NonRestore", "Restore", "NonRestore"))
     
+    print("-" * 176)
+    
+    # Data Rows
+    for i, (restore, nonrestore) in enumerate(zip(RestoreResults, NonRestoreResults)):
+        print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<8} | {:<10} | {:<7} | {:<10} |".format(
+            i+1,
+            restore["Operand 1"],
+            restore["Operand 2"],
+            f"{restore['Quotient']['Binary']} ({restore['Quotient']['Hex']})",
+            f"{restore['Remainder']['Binary']} ({restore['Remainder']['Hex']})",
+            restore["Number of iterations"],
+            nonrestore["Number of iterations"],
+            restore["Number of Additions/Subtractions"],
+            nonrestore["Number of Additions/Subtractions"]
+        ))
+    
+    print("-" * 176)
+    return 
