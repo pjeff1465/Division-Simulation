@@ -18,10 +18,10 @@ from funcs import *
 
 # q_int, m_int ==> magnitudes (negate sign bit) ==> q_sign, m_sign
 def NonRestoring(q_int, m_int, q_sign, m_sign, length):
-  i = 0 #iterations
-  n = length #Number of bits in q
-  addSub = 0 #Number of Additions and Subtractions
-  a = 0 #a = length of q
+  i_nr = 0 # iterations
+  n = length # Number of bits in q
+  addSub_nr = 0 # Number of Additions and Subtractions
+  a = 0 # a = length of q
   q = q_int # update every iteration
 
   # Check Overflow
@@ -44,30 +44,30 @@ def NonRestoring(q_int, m_int, q_sign, m_sign, length):
   # if either check true skip loop for iteration and print error
 
   # Enter NonRestore Algorithm
-  while i < n: # iteration # = num of bits
+  while i_nr < n: # iteration # = num of bits
       # Preform SHL on AQ
       a, q_int = ShiftLeft(a, q, length) # use updated q
 
       if BitPosition(a, length): # A is negative
           # add a <- a + m
           a = AddBinary(a, m_int, length)
-          addSub += 1
+          addSub_nr += 1
       else: # A is positive
           # subtract a <- a - m 
           a = SubBinary(a, m_int, length)
-          addSub += 1
+          addSub_nr += 1
 
       if BitPosition(a, length): # A is negative
           q = q & ~1 # clear LSB in q , q[0] = 0
       else: # A is positive
           q = q | 1 # LSB in q is 1 q[0] = 1
       
-      i += 1 
+      i_nr += 1 
         
   # On last iteration if A is negative => A <- A + M
   if BitPosition(a, length): 
     a = AddBinary(a, m_int, length)
-    addSub += 1
+    addSub_nr += 1
   
   # final values determined from loop
   final_q = q
@@ -91,8 +91,9 @@ def NonRestoring(q_int, m_int, q_sign, m_sign, length):
   # Store everything in a dictionary
   NonRestoreResults = {"Quotient": {"Binary": q_bin, "Hex": q_hex},
                        "Remainder": {"Binary": a_bin, "Hex": a_hex},
-                       "Number of iterations": i,
-                       "Number of Additions/Subtractions": addSub
+                       "Number of iterations": i_nr,
+                       "Number of Additions/Subtractions": addSub_nr
                        }
+  print(i_nr)
   
   return NonRestoreResults

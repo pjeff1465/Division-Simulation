@@ -2,9 +2,9 @@ from funcs import *
 
 # q_int, m_int ==> Magnitudes (sign bit negated)
 def Restoring(q_int, m_int, q_sign, m_sign, length):    
-    i = 0 #iterations
-    n = length #Number of bits in q
-    addSub = 0 #Number of Additions and Subtractions
+    i_r = 0 # iterations
+    n = length # Number of bits in q
+    addSub_r = 0 # Number of Additions and Subtractions
     a = 0 # a = length of q
     q = q_int # update every iteration
     
@@ -28,24 +28,24 @@ def Restoring(q_int, m_int, q_sign, m_sign, length):
     # if either check true skip loop for iteration and print error
 
     # Enter Restore Algorithm
-    while i < n: # iterations # = num of bits
+    while i_r < n: # iterations # = num of bits
         # perform SHL on AQ
         a, q = ShiftLeft(a, q, length) # use updated q
 
         a = SubBinary(a, m_int, length) # a <- a - m 
-        addSub += 1
+        addSub_r += 1
                 
         if BitPosition(a, length): # If A = negative
             q = q & ~1 # clear LSB in q
 
             # restore a ( a <- a + m )
             a = AddBinary(a, m_int, length)
-            addSub += 1 # add operation so + 1
+            addSub_r += 1 # add operation so + 1
 
         else: # A is positive
             q = q | 1
 
-        i += 1 # + 1 for number of iterations
+        i_r += 1 # + 1 for number of iterations
 
     # final values determined from loop
     final_q = q
@@ -70,8 +70,8 @@ def Restoring(q_int, m_int, q_sign, m_sign, length):
     # Store everything in a dictionary
     RestoreResults = {"Quotient": {"Binary": q_bin, "Hex": q_hex},
                       "Remainder": {"Binary": a_bin, "Hex": a_hex},
-                      "Number of iterations": i,
-                      "Number of Additions/Subtractions": addSub
+                      "Number of iterations": i_r,
+                      "Number of Additions/Subtractions": addSub_r
                       }
 
     return RestoreResults

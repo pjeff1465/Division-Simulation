@@ -77,3 +77,48 @@ def int_to_binary(num, length):
         magnitude = abs(num)
         binary = format(magnitude, f'0{length-1}b').zfill(length-1)
         return '1' + binary
+    
+# function used to print restore results table
+def PrintRestore(RestoreResults):
+    print("\n=== Restoring Division Results ===")
+    print("-" * 146)
+    print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<5} | {:<7} |".format(
+        "No.", "Dividend", "Divisor", "Quotient (Bin/Hex)", "Remainder", "Iter", "Add/Sub"))
+    print("-" * 146)
+
+    for i, result in enumerate(RestoreResults):
+        print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<5} | {:<7} |".format(
+            i+1,
+            result["Operand 1"],
+            result["Operand 2"],
+            f"{result['Quotient']['Binary']} ({result['Quotient']['Hex']})",
+            f"{result['Remainder']['Binary']} ({result['Remainder']['Hex']})",
+            result["Number of iterations"],
+            result["Number of Additions/Subtractions"]
+        ))
+    print("-" * 146)
+    return
+
+# function used to print NonRestore results
+def PrintNonRestore(NonRestoreResults):
+    print("\n=== Non-Restoring Division Results ===")
+    print("-" * 146)
+    print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<5} | {:<7} |".format(
+        "No.", "Dividend", "Divisor", "Quotient (Bin/Hex)", "Remainder", "Iter", "Add/Sub"))
+    print("-" * 146)
+    
+    for i, result in enumerate(NonRestoreResults):
+        print("| {:<4} | {:<26} | {:<14} | {:<35} | {:<34} | {:<5} | {:<7} |".format(
+            i+1,
+            result["Operand 1"],
+            result["Operand 2"],
+            f"{result['Quotient']['Binary']} ({result['Quotient']['Hex']})",
+            f"{result['Remainder']['Binary']} ({result['Remainder']['Hex']})",
+            result["Number of iterations"],
+            result["Number of Additions/Subtractions"]
+        ))
+    print("-" * 146)
+    return 
+
+def PrintResults(NonRestoreResults, RestoreResults):
+    
