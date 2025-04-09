@@ -79,11 +79,8 @@ def main():
     return NonRestoreResults, RestoreResults
 
 def graph(NonRestoreResults, RestoreResults):
-    operand_lengths = [9, 5, 9, 5, 9, 5, 9, 5, 13, 7, 13, 7, 13, 7, 17, 9,
-                    17, 9, 17, 9, 17, 9, 21, 11, 21, 11, 21, 11, 21, 11,
-                    25, 13, 25, 13, 25, 13, 25, 13]
-    combined_lengths = [operand_lengths[i] + operand_lengths[i+1] for i in range(0, len(operand_lengths), 2)]
-    # This adds the operand1 + operand2, idk if we are supposed to do it that way or show operand 1 and operand 2 not repeating duh
+
+    # Exctract needed data from result dictionaries
     restoring_add_subs = [
         result["Number of Additions/Subtractions"]
         for result in RestoreResults
@@ -106,28 +103,83 @@ def graph(NonRestoreResults, RestoreResults):
         if result["Number of iterations"] != "Error"
     ]
 
-    #print(combined_lengths)
-    #print(len(combined_lengths), len(restoring_add_subs), len(nonrestoring_add_subs), len(restoring_iterations), len(nonrestoring_iterations))
+    # Extract Divisor length from result dictionaries
+    divisor_lengths = [len(result["Operand 2"]) for result in RestoreResults]
+
+    # Create dictionaries to store grouped values by operand lengths
+    restoring_add_sub_by_length = {}
+    nonrestoring_add_sub_by_length = {}
+    restoring_iter_by_length = {}
+    nonrestoring_iter_by_length = {}
+
+    # group by length
+    for length in set(divisor_lengths):
+        restoring_add_sub_by_length[length] = []
+        nonrestoring_add_sub_by_length[length] = []
+        restoring_iter_by_length[length] = []
+        nonrestoring_iter_by_length[length] = []
+
+    for result in RestoreResults:
+        length = len(result["Operand 2"])
+        if result["Number of Additions/Subtractions"] != "Error":
+            restoring_add_sub_by_length[length].append(result["Number of Additions/Subtractions"])
+        if result["Number of iterations"] != "Error":
+            restoring_iter_by_length[length].append(result["Number of iterations"])
+
+    for result in NonRestoreResults:
+        length = len(result["Operand 2"])
+        if result["Number of Additions/Subtractions"] != "Error":
+            nonrestoring_add_sub_by_length[length].append(result["Number of Additions/Subtractions"])
+        if result["Number of iterations"] != "Error":
+            nonrestoring_iter_by_length[length].append(result["Number of iterations"])
+    
+    avg_lengths = sorted(set(divisor_lengths))
+    avg_restoring_add_subs = [
+        sum(restoring_add_sub_by_length[length]) / len(restoring_add_sub_by_length[length])
+        if restoring_add_sub_by_length[length] else 0
+        for length in avg_lengths
+    ]
+    avg_nonrestoring_add_subs = [
+        sum(nonrestoring_add_sub_by_length[length]) / len(nonrestoring_add_sub_by_length[length])
+        if nonrestoring_add_sub_by_length[length] else 0
+        for length in avg_lengths
+    ]
+    avg_restoring_iter = [
+        sum(restoring_iter_by_length[length]) / len(restoring_iter_by_length[length])
+        if restoring_iter_by_length[length] else 0
+        for length in avg_lengths
+    ]
+    avg_nonrestoring_iter = [
+        sum(nonrestoring_iter_by_length[length]) / len(nonrestoring_iter_by_length[length])
+        if nonrestoring_iter_by_length[length] else 0
+        for length in avg_lengths
+    ]    
 
     # === Figure 1: Add/Sub ===
     plt.figure(figsize=(10, 6))
-    plt.plot(combined_lengths, restoring_add_subs, label="Restoring Method", marker='o')
-    plt.plot(combined_lengths, nonrestoring_add_subs, label="Non-Restoring Method", marker='x')
-    plt.title("Additions/Subtractions vs Operand Length")
-    plt.xlabel("Total Operand Length (len(q) + len(m))")
-    plt.ylabel("Number of Additions/Subtractions")
+    plt.plot(avg_lengths, avg_restoring_add_subs, 'b-o', linewidth=2, markersize=8, label="Restoring Method")
+    plt.plot(avg_lengths, avg_nonrestoring_add_subs, 'r--s', linewidth=2, markersize=8, label="Non-Restoring Method")
+    plt.title("Average Additions/Subtractions vs Divisor Length")
+    plt.xlabel("Divisor Length")
+    plt.ylabel("Avg. Number of Additions/Subtractions")
     plt.legend()
     plt.grid(True)
+    plt.ylim(14, max(avg_restoring_add_subs + avg_nonrestoring_add_subs) + 2)  # Set y-axis range
+    plt.yticks(np.arange(14, max(avg_restoring_add_subs + avg_nonrestoring_add_subs) + 2, 1))
+    plt.savefig('add_sub_comparisons.png')
 
     # === Figure 2: Iterations ===
     plt.figure(figsize=(10, 6))
-    plt.plot(combined_lengths, restoring_iterations, label="Restoring Method", marker='o')
-    plt.plot(combined_lengths, nonrestoring_iterations, label="Non-Restoring Method", marker='x')
-    plt.title("Iterations vs Operand Length")
-    plt.xlabel("Total Operand Length (len(q) + len(m))")
-    plt.ylabel("Number of Iterations")
+    plt.plot(avg_lengths, avg_restoring_iter, 'b-o', linewidth=2, markersize=8, label="Restoring Method")
+    plt.plot(avg_lengths, avg_nonrestoring_iter, 'r--s', linewidth=2, markersize=8, label="Non-Restoring Method")
+    plt.title("Average Iterations vs Divisor Length")
+    plt.xlabel("Divisor Length")
+    plt.ylabel("Avg. Number of Iterations")
     plt.legend()
     plt.grid(True)
+    plt.ylim(8, max(avg_restoring_iter + avg_nonrestoring_iter) + 2)  # Set y-axis range
+    plt.yticks(np.arange(8, max(avg_restoring_iter + avg_nonrestoring_iter) + 2, 1))
+    plt.savefig('iter_comparisons.png')
 
     plt.show()
 
@@ -138,6 +190,6 @@ if __name__ == "__main__":
     #PrintRestore(RestoreResults)
     #PrintNonRestore(NonRestoreResults)
     
-    #graph(NonRestoreResults, RestoreResults) 
+    graph(NonRestoreResults, RestoreResults) 
 
-    PrintResults(NonRestoreResults, RestoreResults)
+    #PrintResults(NonRestoreResults, RestoreResults)
